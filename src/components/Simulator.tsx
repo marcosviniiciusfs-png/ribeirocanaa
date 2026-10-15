@@ -43,7 +43,7 @@ const Simulator = () => {
         Interesse: formData.interest,
       };
       const response = await fetch(
-        "https://traffic-api.hurtzcompany.com/api/flow/inbound/1cd16dbb-722b-4add-ae0a-d6346b728ae5/2oo4x1dpuyosnDHsMkDCvGNrZSYTcFqy",
+        "https://traffic-api.hurtzcompany.com/api/flow/inbound/15babdbf-41c1-4ea4-a08e-68931ca8d901/hMSVZWcA77Un0vZb08-H6FQQdv4X0Mh_",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
