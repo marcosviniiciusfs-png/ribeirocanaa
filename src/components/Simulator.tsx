@@ -56,6 +56,7 @@ const Simulator = () => {
         throw new Error(`Falha ao enviar lead: ${response.status}`);
       }
 
+      window.fbq?.("track", "Lead");
       toast({ title: "Solicitação enviada!", description: "Em breve entraremos em contato pelo WhatsApp." });
       navigate("/obrigado");
     } catch (error) {
