@@ -16,6 +16,8 @@ interface FormData {
 }
 
 const totalSteps = 3;
+const leadEndpoint = "https://ribeiro-canaa-leads-api.hurtz-assistente.workers.dev";
+const getCookie = (name: string) => document.cookie.split("; ").find((cookie) => cookie.startsWith(`${name}=`))?.split("=").slice(1).join("=");
 
 const Simulator = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -36,14 +38,18 @@ const Simulator = () => {
     setIsSubmitting(true);
 
     try {
+      const eventId = crypto.randomUUID();
       const webhookData = {
         "Data de Entrada": new Intl.DateTimeFormat("pt-BR").format(new Date()),
         "Nome Completo": formData.fullName,
         WhatsApp: formData.whatsapp,
         Interesse: formData.interest,
+        event_id: eventId,
+        fbp: getCookie("_fbp"),
+        fbc: getCookie("_fbc"),
       };
       const response = await fetch(
-        "https://traffic-api.hurtzcompany.com/api/flow/inbound/15babdbf-41c1-4ea4-a08e-68931ca8d901/hMSVZWcA77Un0vZb08-H6FQQdv4X0Mh_",
+        leadEndpoint,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -56,7 +62,7 @@ const Simulator = () => {
         throw new Error(`Falha ao enviar lead: ${response.status}`);
       }
 
-      window.fbq?.("track", "Lead");
+      window.fbq?.("track", "Lead", {}, { eventID: eventId });
       toast({ title: "Solicitação enviada!", description: "Em breve entraremos em contato pelo WhatsApp." });
       navigate("/obrigado");
     } catch (error) {
